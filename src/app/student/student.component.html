@@ -1,0 +1,66 @@
+<div class="student-container">
+
+  <h1>Student List</h1>
+
+  <!-- NEW DYNAMIC SEARCH INPUT LAYER -->
+  <div class="search-wrapper" style="margin: 15px 0;">
+    <input 
+      type="text" 
+      placeholder="Search students by name" 
+      (input)="onSearchChange($event)"
+      style="width: 100%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;" />
+  </div>
+
+  <p>Loading: {{ loading }}</p>
+  <p>Students Count: {{ students.length }}</p>
+  <p>Total Records: {{ totalRecords }}</p>
+
+  <table border="1" style="width: 100%; margin-top: 15px;" *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>College</th>
+        <th>Program</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>{{ student.fullName }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.phoneNumber }}</td>
+        <td>{{ student.gender }}</td>
+        <td>{{ student.collegeName }}</td>
+        <td>{{ student.programName }}</td>
+        <td>
+          <span *ngIf="student.isVerified">Verified</span>
+          <span *ngIf="!student.isVerified">Not Verified</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+  <!-- PAGINATION CONTROLS -->
+  <div class="pagination-controls" *ngIf="totalPages > 1 && !loading">
+    <button (click)="previousPage()" [disabled]="currentPage <= 1">
+      Previous
+    </button>
+    
+    <span style="margin: 0 10px;">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages">
+      Next
+    </button>
+  </div>
+
+</div>

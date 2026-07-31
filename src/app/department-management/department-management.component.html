@@ -1,0 +1,105 @@
+<h2>Department Management</h2>
+
+<!-- Displays count based on actively filtered records -->
+<p>
+  Total Departments: {{ filteredDepartments.length }}
+</p>
+
+<!-- 1. Moved Search Input Box up here from the bottom so it is clearly visible -->
+<div class="search-box-container" style="margin: 15px 0;">
+  <input 
+    type="text" 
+    [(ngModel)]="searchTerm" 
+    placeholder="🔎 Search by department name or remarks..." 
+    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+  >
+</div>
+
+<button
+class="add-btn"
+(click)="openAddModal()">
+  + Add Department
+</button>
+
+<table border="1" style="width: 100%; margin-top: 15px;">
+<thead>
+<tr>
+<th>ID</th>
+<th>Department Name</th>
+<th>Campus ID</th>
+<th>Campus</th>
+<th>Status</th>
+<th>Remarks</th>
+<th>Created By</th>
+<th>Created Date</th>
+<th>Updated By</th>
+<th>Updated Date</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+<!-- 2. Changed 'departments' to 'filteredDepartments' so typing filters the table rows instantly -->
+<tr *ngFor="let dept of filteredDepartments">
+<td>{{dept.id}}</td>
+<td>{{dept.departmentName}}</td>
+<td>{{dept.campusId}}</td>
+<td>{{dept.campus || '-'}}</td>
+<td>{{dept.status ? 'Active':'Inactive'}}</td>
+<td>{{dept.remarks || '-'}}</td>
+<td>{{dept.createdBy || '-'}}</td>
+<td>{{dept.createdDate || '-'}}</td>
+<td>{{dept.updatedBy || '-'}}</td>
+<td>{{dept.updatedDate || '-'}}</td>
+<td>
+<button
+class="edit-btn"
+(click)="editDepartment(dept)">
+Edit
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+
+<!-- POPUP MODAL WINDOW -->
+<div
+class="modal-backdrop"
+*ngIf="showModal">
+
+<div class="modal-box">
+<h3>
+{{isEditMode ? 'Update Department':'Add Department'}}
+</h3>
+
+<label>Department Name</label>
+<input
+type="text"
+[(ngModel)]="department.departmentName"
+>
+
+<label>Status</label>
+<select
+[(ngModel)]="department.status">
+<option [ngValue]="true">Active</option>
+<option [ngValue]="false">Inactive</option>
+</select>
+
+<label>Remarks</label>
+<textarea
+[(ngModel)]="department.remarks">
+</textarea>
+
+<button
+class="save-btn"
+(click)="saveDepartment()">
+{{isEditMode ? 'Update':'Save'}}
+</button>
+
+<button
+class="cancel-btn"
+(click)="closeModal()">
+Cancel
+</button>
+</div>
+</div>
